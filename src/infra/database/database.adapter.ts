@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import Knex from 'knex';
-import knexConfig from '../../knexfile';
+import knexConfig from '../../../knexfile';
 import { Knex as knexType } from 'knex';
 
 @Injectable()
-export class DatabaseService {
+export class DatabaseAdapter {
   private knex;
 
   constructor() {
