@@ -1,21 +1,29 @@
 import { Injectable } from '@nestjs/common';
 import { CreateFileInput } from './dto/create-file.input';
+import { DatabaseService } from 'src/infra/database.service';
+import { Knex } from 'knex';
 
 @Injectable()
 export class FilesService {
+  db: Knex;
+
+  constructor(private readonly dbService: DatabaseService) {
+    this.db = dbService.getKnex();
+  }
+
   create(createFileInput: CreateFileInput) {
-    return 'This action adds a new file' + createFileInput;
+    return this.db('files').insert(createFileInput).returning('*');
   }
 
   findAll() {
-    return `This action returns all files`;
+    return this.db('files').select('*');
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} file`;
+    return this.db('files').where({ id }).first();
   }
 
   remove(id: number) {
-    return `This action removes a #${id} file`;
+    return this.db('files').where({ id }).delete();
   }
 }

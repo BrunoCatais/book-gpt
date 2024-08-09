@@ -3,13 +3,36 @@
 # ------------------------------------------------------
 
 input CreateFileInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  """The content of the file"""
+  content: String!
+
+  """The name of the file"""
+  name: String!
+
+  """The size of the file"""
+  size: Int!
 }
 
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 type File {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  """The content of the file"""
+  content: String!
+
+  """The creation date of the file"""
+  created_at: DateTime!
+
+  """The id of the file"""
+  id: ID!
+
+  """The name of the file"""
+  name: String!
+
+  """The size of the file"""
+  size: Float!
 }
 
 type Mutation {
