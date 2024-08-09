@@ -37,10 +37,10 @@ type File {
 
 type Mutation {
   createFile(createFileInput: CreateFileInput!): File!
-  removeFile(id: Int!): File!
+  removeFile(id: ID!): File!
 }
 
 type Query {
-  file(id: Int!): File!
+  file(id: ID!): File!
   files: [File!]!
 }

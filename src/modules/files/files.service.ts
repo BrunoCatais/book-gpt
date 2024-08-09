@@ -19,11 +19,11 @@ export class FilesService {
     return this.db('files').select('*');
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return this.db('files').where({ id }).first();
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return this.db('files').where({ id }).delete();
   }
 }
