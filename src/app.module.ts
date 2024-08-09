@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
-import { FileModule } from './modules/file/file.module';
+import { FilesModule } from './modules/files/files.module';
 
 @Module({
   imports: [
@@ -11,7 +11,7 @@ import { FileModule } from './modules/file/file.module';
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       sortSchema: true,
     }),
-    FileModule,
+    FilesModule,
   ],
   providers: [],
 })

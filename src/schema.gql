@@ -2,6 +2,22 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+input CreateFileInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type File {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type Mutation {
+  createFile(createFileInput: CreateFileInput!): File!
+  removeFile(id: Int!): File!
+}
+
 type Query {
-  hello: String!
+  file(id: Int!): File!
+  files: [File!]!
 }
