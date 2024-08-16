@@ -3,6 +3,21 @@ import { v4 as uuidv4 } from 'uuid';
 
 @ObjectType()
 export class File {
+  @Field(() => ID, { description: 'The id of the file' })
+  id: string;
+
+  @Field({ description: 'The name of the file' })
+  name: string;
+
+  @Field({ description: 'The size of the file' })
+  size: number;
+
+  @Field({ description: 'The content of the file' })
+  content: string;
+
+  @Field({ description: 'The creation date of the file' })
+  created_at: Date;
+
   private constructor(
     id: string,
     name: string,
@@ -30,19 +45,4 @@ export class File {
       file.created_at,
     );
   }
-
-  @Field(() => ID, { description: 'The id of the file' })
-  id: string;
-
-  @Field({ description: 'The name of the file' })
-  name: string;
-
-  @Field({ description: 'The size of the file' })
-  size: number;
-
-  @Field({ description: 'The content of the file' })
-  content: string;
-
-  @Field({ description: 'The creation date of the file' })
-  created_at: Date;
 }

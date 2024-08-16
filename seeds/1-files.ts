@@ -10,6 +10,7 @@ export async function seed(knex: Knex): Promise<void> {
       size: 1234,
       content: 'Content of file 1',
       created_at: knex.fn.now(),
+      collection_id: '0f9e2f1d-7f2f-4633-8b85-ea9eefc874bd',
     },
     {
       id: 'd45ddf12-10ca-40b6-b152-6da1fbbf6153',
