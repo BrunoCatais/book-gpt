@@ -5,7 +5,7 @@ export async function up(knex: Knex): Promise<void> {
     table.uuid('id').primary().defaultTo(knex.raw('uuid_generate_v4()'));
     table.string('name').notNullable();
     table.integer('size').notNullable();
-    table.string('content', 1000000).notNullable();
+    table.text('content').notNullable();
     table.timestamp('created_at').defaultTo(knex.fn.now());
     table.uuid('collection_id').references('id').inTable('collections');
   });

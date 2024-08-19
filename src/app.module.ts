@@ -4,6 +4,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import { FilesModule } from './infra/module/files.module';
 import { ConfigModule } from '@nestjs/config';
+import { VectorStoreModule } from './infra/module/vectorstore.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { ConfigModule } from '@nestjs/config';
       isGlobal: true,
     }),
     FilesModule,
+    VectorStoreModule,
   ],
   providers: [],
 })
