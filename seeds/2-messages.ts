@@ -1,9 +1,9 @@
 import { Knex } from 'knex';
 
 export async function seed(knex: Knex): Promise<void> {
-  await knex('chats').del();
+  await knex('messages').del();
 
-  await knex('chats').insert([
+  await knex('messages').insert([
     {
       id: '250e9b01-e118-495c-9c6b-ed7cc6fbb943',
       message: 'Hello file!',

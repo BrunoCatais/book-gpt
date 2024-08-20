@@ -11,6 +11,7 @@ export class CreateFileUsecase {
     private readonly vectorStore: PgVectorStore,
   ) {
     this.fileRepository = fileRepository;
+    this.vectorStore = vectorStore;
   }
 
   async execute(createFileInput: CreateFileInput) {

@@ -13,6 +13,17 @@ input CreateFileInput {
   size: Int!
 }
 
+input CreateMessageInput {
+  """Collection id"""
+  collectionId: ID
+
+  """File id"""
+  fileId: ID
+
+  """Message to create"""
+  message: String!
+}
+
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
@@ -35,8 +46,29 @@ type File {
   size: Float!
 }
 
+type Message {
+  """The id of the associated collection"""
+  collection_id: String!
+
+  """The creation date of the message"""
+  created_at: DateTime!
+
+  """The id of the associated file"""
+  file_id: String!
+
+  """The id of the message"""
+  id: ID!
+
+  """The message"""
+  message: String!
+
+  """The source of the message"""
+  source: String!
+}
+
 type Mutation {
   createFile(createFileInput: CreateFileInput!): File!
+  createMessage(createMessageInput: CreateMessageInput!): Message!
   removeFile(id: ID!): File!
 }
 

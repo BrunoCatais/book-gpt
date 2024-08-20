@@ -5,6 +5,7 @@ import { join } from 'path';
 import { FilesModule } from './infra/module/files.module';
 import { ConfigModule } from '@nestjs/config';
 import { VectorStoreModule } from './infra/module/vectorstore.module';
+import { MessagesModule } from './infra/module/messages.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { VectorStoreModule } from './infra/module/vectorstore.module';
     }),
     FilesModule,
     VectorStoreModule,
+    MessagesModule,
   ],
   providers: [],
 })
