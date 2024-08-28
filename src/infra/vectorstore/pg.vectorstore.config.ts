@@ -32,3 +32,15 @@ export function getBedrockEmbeddingsConfig(configService: ConfigService) {
     model: 'amazon.titan-embed-text-v1',
   };
 }
+
+export function getBedrockChatConfig(configService: ConfigService) {
+  return {
+    region: configService.get<string>('AWS_REGION'),
+    credentials: {
+      accessKeyId: configService.get<string>('AWS_ACCESS_KEY_ID'),
+      secretAccessKey: configService.get<string>('AWS_SECRET_ACCESS_KEY'),
+    },
+    model: 'anthropic.claude-3-sonnet-20240229-v1:0',
+    temperature: 0.2,
+  };
+}

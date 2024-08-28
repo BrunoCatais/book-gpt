@@ -7,7 +7,6 @@ import { FindFileByIdUsecase } from 'src/application/usecase/find.file.by.id';
 import { FindAllFilesUsecase } from 'src/application/usecase/find.all.files';
 import { RemoveFileUsecase } from 'src/application/usecase/remove-file';
 import { VectorStoreModule } from './vectorstore.module';
-import { PgVectorStore } from '../vectorstore/pg.vectorstore';
 import { KnexVectorTableRepository } from '../repository/knex.vector.table.repository';
 
 @Module({
@@ -19,7 +18,6 @@ import { KnexVectorTableRepository } from '../repository/knex.vector.table.repos
     FindFileByIdUsecase,
     FindAllFilesUsecase,
     RemoveFileUsecase,
-    PgVectorStore,
     KnexVectorTableRepository,
   ],
   imports: [VectorStoreModule],
