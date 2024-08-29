@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { GraphQLError } from 'graphql';
-import { KnexFileRepository } from 'src/infra/repository/knex.file.repository';
-import { KnexVectorTableRepository } from 'src/infra/repository/knex.vector.table.repository';
+import { KnexFileRepository } from 'src/infra/repository/knex-file.repository';
+import { KnexVectorTableRepository } from 'src/infra/repository/knex-vector-table.repository';
 
 @Injectable()
 export class RemoveFileUsecase {

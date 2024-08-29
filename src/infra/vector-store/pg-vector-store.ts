@@ -1,6 +1,6 @@
 import { Document } from '@langchain/core/documents';
 import { Injectable } from '@nestjs/common';
-import VectorStore from 'src/application/vectorstore/vectorstore';
+import VectorStore from 'src/application/vector-store/vector-store';
 import { TokenTextSplitter } from 'langchain/text_splitter';
 import { PGVectorStore } from '@langchain/community/vectorstores/pgvector';
 import { BedrockEmbeddings } from '@langchain/aws';
@@ -12,7 +12,7 @@ import {
   getBedrockChatConfig,
   getBedrockEmbeddingsConfig,
   getVectorStoreConfig,
-} from './pg.vectorstore.config';
+} from './pg-vector-store.config';
 
 @Injectable()
 export class PgVectorStore implements VectorStore {

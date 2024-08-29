@@ -1,9 +1,9 @@
 import { Resolver, Query, Mutation, Args, ID } from '@nestjs/graphql';
 import { CreateFileInput } from 'src/domain/dto/create-file.input';
 import { File } from 'src/domain/entities/file.entity';
-import { CreateFileUsecase } from 'src/application/usecase/create.file';
-import { FindFileByIdUsecase } from 'src/application/usecase/find.file.by.id';
-import { FindAllFilesUsecase } from 'src/application/usecase/find.all.files';
+import { CreateFileUsecase } from 'src/application/usecase/create-file';
+import { FindFileByIdUsecase } from 'src/application/usecase/find-file-by-id';
+import { FindAllFilesUsecase } from 'src/application/usecase/find-all-files';
 import { RemoveFileUsecase } from 'src/application/usecase/remove-file';
 
 @Resolver(() => File)

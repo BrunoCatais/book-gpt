@@ -4,7 +4,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import { FilesModule } from './infra/module/files.module';
 import { ConfigModule } from '@nestjs/config';
-import { VectorStoreModule } from './infra/module/vectorstore.module';
+import { VectorStoreModule } from './infra/module/vector-store.module';
 import { MessagesModule } from './infra/module/messages.module';
 
 @Module({

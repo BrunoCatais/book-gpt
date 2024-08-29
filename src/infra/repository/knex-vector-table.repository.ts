@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { DatabaseAdapter } from 'src/infra/database/database.adapter';
 import { Knex } from 'knex';
-import VectorTableRepository from 'src/application/repository/vector.table.repository';
+import VectorTableRepository from 'src/application/repository/vector-table.repository';
 
 @Injectable()
 export class KnexVectorTableRepository implements VectorTableRepository {

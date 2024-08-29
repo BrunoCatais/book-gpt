@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { PgVectorStore } from 'src/infra/vectorstore/pg.vectorstore';
+import { PgVectorStore } from 'src/infra/vector-store/pg-vector-store';
 
 @Injectable()
 export class VectorStoreFacade {

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { KnexFileRepository } from 'src/infra/repository/knex.file.repository';
+import { KnexFileRepository } from 'src/infra/repository/knex-file.repository';
 
 @Injectable()
 export class FindAllFilesUsecase {

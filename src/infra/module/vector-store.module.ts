@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { PgVectorStore } from '../vectorstore/pg.vectorstore';
-import { KnexVectorTableRepository } from '../repository/knex.vector.table.repository';
+import { PgVectorStore } from '../vector-store/pg-vector-store';
+import { KnexVectorTableRepository } from '../repository/knex-vector-table.repository';
 import { DatabaseAdapter } from '../database/database.adapter';
-import { VectorStoreFacade } from 'src/application/service/vectorstore.facade';
+import { VectorStoreFacade } from 'src/application/service/vector-store.facade';
 
 @Module({
   providers: [

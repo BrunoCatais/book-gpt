@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { Message } from 'src/domain/entities/message.entity';
 import { CreateMessageInput } from 'src/domain/dto/create-message.input';
-import { KnexMessageRepository } from 'src/infra/repository/knex.message.repository';
-import { VectorStoreFacade } from '../service/vectorstore.facade';
+import { KnexMessageRepository } from 'src/infra/repository/knex-message.repository';
+import { VectorStoreFacade } from '../service/vector-store.facade';
 
 @Injectable()
 export class CreateMessageUsecase {
