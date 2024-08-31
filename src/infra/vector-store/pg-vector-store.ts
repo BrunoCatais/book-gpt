@@ -16,8 +16,11 @@ import {
 
 @Injectable()
 export class PgVectorStore implements VectorStore {
-  splitter: TokenTextSplitter;
-  pgStore: PGVectorStore;
+  private splitter: TokenTextSplitter;
+  private pgStore: PGVectorStore;
+  private chat: BedrockChat;
+  private prompt: PromptTemplate;
+  private chain: RetrievalQAChain;
 
   constructor(private readonly configService: ConfigService) {
     this.splitter = new TokenTextSplitter({
@@ -26,16 +29,39 @@ export class PgVectorStore implements VectorStore {
       chunkOverlap: 0,
     });
 
-    this.initializeStore();
+    this.initialize();
   }
 
-  private async initializeStore() {
+  private async initialize() {
     const vectorStoreConfig = getVectorStoreConfig(this.configService);
     const bedrockConfig = getBedrockEmbeddingsConfig(this.configService);
 
     this.pgStore = await PGVectorStore.initialize(
       new BedrockEmbeddings(bedrockConfig),
       vectorStoreConfig,
+    );
+    this.chat = new BedrockChat(getBedrockChatConfig(this.configService));
+    this.prompt = new PromptTemplate({
+      template: `
+        You are an assistant specialized in helping the user remember what happened in one or more books.
+        Do not quote the excerpt directly, but rather answer the question in your own words.
+        If you do not know the answer, just say that you do not know.
+        Use the excerpts below to answer the questions.
+
+        Excerpts:
+        {context}
+
+        Question:
+        {question}
+      `,
+      inputVariables: ['context', 'question'],
+    });
+    this.chain = RetrievalQAChain.fromLLM(
+      this.chat,
+      this.pgStore.asRetriever(),
+      {
+        prompt: this.prompt,
+      },
     );
   }
 
@@ -51,36 +77,8 @@ export class PgVectorStore implements VectorStore {
     return this.pgStore.addDocuments(documents);
   }
 
-  createChat(): BedrockChat {
-    return new BedrockChat(getBedrockChatConfig(this.configService));
-  }
-
-  createPrompt(): PromptTemplate {
-    return new PromptTemplate({
-      template: `
-        You are an assistant specialized in helping the user remember what happened in one or more books.
-        Do not quote the excerpt directly, but rather answer the question in your own words.
-        If you do not know the answer, just say that you do not know.
-        Use the excerpts below to answer the questions.
-
-        Excerpts:
-        {context}
-
-        Question:
-        {question}
-      `,
-      inputVariables: ['context', 'question'],
-    });
-  }
-
-  createChain(chat: BedrockChat, prompt: PromptTemplate): RetrievalQAChain {
-    return RetrievalQAChain.fromLLM(chat, this.pgStore.asRetriever(), {
-      prompt,
-    });
-  }
-
-  async invokeChain(chain: RetrievalQAChain, message: string): Promise<string> {
-    const result = await chain.invoke({ query: message });
+  async invokeChain(message: string): Promise<string> {
+    const result = await this.chain.invoke({ query: message });
     return result.text;
   }
 }

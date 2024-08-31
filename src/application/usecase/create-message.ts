@@ -1,18 +1,17 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { Message } from 'src/domain/entities/message.entity';
 import { CreateMessageInput } from 'src/domain/dto/create-message.input';
-import { KnexMessageRepository } from 'src/infra/repository/knex-message.repository';
-import { VectorStoreFacade } from '../service/vector-store.facade';
+import MessageRepository from '../repository/message.repository';
+import VectorStore from '../vector-store/vector-store';
 
 @Injectable()
 export class CreateMessageUsecase {
   constructor(
-    private readonly messageRepository: KnexMessageRepository,
-    private readonly vectorStoreFacade: VectorStoreFacade,
-  ) {
-    this.messageRepository = messageRepository;
-    this.vectorStoreFacade = vectorStoreFacade;
-  }
+    @Inject('MessageRepository')
+    private readonly messageRepository: MessageRepository,
+    @Inject('VectorStore')
+    private readonly vectorStore: VectorStore,
+  ) {}
 
   async execute(createMessageInput: CreateMessageInput) {
     const message = Message.create(
@@ -23,9 +22,7 @@ export class CreateMessageUsecase {
     );
     const createdMessage = await this.messageRepository.create(message);
 
-    const answer = await this.vectorStoreFacade.generateAnswer(
-      createdMessage.message,
-    );
+    const answer = await this.vectorStore.invokeChain(createdMessage.message);
     const answerMessage = Message.create(
       answer,
       'bot',

@@ -12,13 +12,19 @@ import { KnexVectorTableRepository } from '../repository/knex-vector-table.repos
 @Module({
   providers: [
     FilesResolver,
-    KnexFileRepository,
+    {
+      provide: 'FileRepository',
+      useClass: KnexFileRepository,
+    },
     DatabaseAdapter,
     CreateFileUsecase,
     FindFileByIdUsecase,
     FindAllFilesUsecase,
     RemoveFileUsecase,
-    KnexVectorTableRepository,
+    {
+      provide: 'VectorTableRepository',
+      useClass: KnexVectorTableRepository,
+    },
   ],
   imports: [VectorStoreModule],
 })

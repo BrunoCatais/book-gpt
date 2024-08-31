@@ -1,11 +1,12 @@
-import { Injectable } from '@nestjs/common';
-import { KnexFileRepository } from 'src/infra/repository/knex-file.repository';
+import { Inject, Injectable } from '@nestjs/common';
+import FileRepository from '../repository/file.repository';
 
 @Injectable()
 export class FindFileByIdUsecase {
-  constructor(private readonly fileRepository: KnexFileRepository) {
-    this.fileRepository = fileRepository;
-  }
+  constructor(
+    @Inject('FileRepository')
+    private readonly fileRepository: FileRepository,
+  ) {}
 
   async execute(id: string) {
     return this.fileRepository.findById(id);

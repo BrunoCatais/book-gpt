@@ -1,9 +1,12 @@
-import { Injectable } from '@nestjs/common';
-import { PgVectorStore } from 'src/infra/vector-store/pg-vector-store';
+import { Inject, Injectable } from '@nestjs/common';
+import VectorStore from '../vector-store/vector-store';
 
 @Injectable()
 export class VectorStoreFacade {
-  constructor(private readonly vectorStore: PgVectorStore) {}
+  constructor(
+    @Inject('VectorStore')
+    private readonly vectorStore: VectorStore,
+  ) {}
 
   async processAndStoreDocument(
     content: string,
@@ -12,12 +15,5 @@ export class VectorStoreFacade {
     const document = this.vectorStore.load(content, fileId);
     const splittedDocument = await this.vectorStore.split(document);
     await this.vectorStore.store(splittedDocument);
-  }
-
-  async generateAnswer(chatInput: string): Promise<string> {
-    const chat = this.vectorStore.createChat();
-    const prompt = this.vectorStore.createPrompt();
-    const chain = this.vectorStore.createChain(chat, prompt);
-    return await this.vectorStore.invokeChain(chain, chatInput);
   }
 }

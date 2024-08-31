@@ -1,18 +1,16 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { File } from 'src/domain/entities/file.entity';
-import { KnexFileRepository } from 'src/infra/repository/knex-file.repository';
 import { CreateFileInput } from 'src/domain/dto/create-file.input';
 import { VectorStoreFacade } from '../service/vector-store.facade';
+import FileRepository from '../repository/file.repository';
 
 @Injectable()
 export class CreateFileUsecase {
   constructor(
-    private readonly fileRepository: KnexFileRepository,
+    @Inject('FileRepository')
+    private readonly fileRepository: FileRepository,
     private readonly vectorStoreFacade: VectorStoreFacade,
-  ) {
-    this.fileRepository = fileRepository;
-    this.vectorStoreFacade = vectorStoreFacade;
-  }
+  ) {}
 
   async execute(createFileInput: CreateFileInput) {
     const file = File.create(

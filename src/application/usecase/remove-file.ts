@@ -1,17 +1,16 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { GraphQLError } from 'graphql';
-import { KnexFileRepository } from 'src/infra/repository/knex-file.repository';
-import { KnexVectorTableRepository } from 'src/infra/repository/knex-vector-table.repository';
+import FileRepository from '../repository/file.repository';
+import VectorTableRepository from '../repository/vector-table.repository';
 
 @Injectable()
 export class RemoveFileUsecase {
   constructor(
-    private readonly fileRepository: KnexFileRepository,
-    private readonly vectorTableRepository: KnexVectorTableRepository,
-  ) {
-    this.fileRepository = fileRepository;
-    this.vectorTableRepository = vectorTableRepository;
-  }
+    @Inject('FileRepository')
+    private readonly fileRepository: FileRepository,
+    @Inject('VectorTableRepository')
+    private readonly vectorTableRepository: VectorTableRepository,
+  ) {}
 
   async execute(id: string) {
     const file = await this.fileRepository.findById(id);

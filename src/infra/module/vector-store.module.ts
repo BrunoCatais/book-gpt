@@ -6,7 +6,10 @@ import { VectorStoreFacade } from 'src/application/service/vector-store.facade';
 
 @Module({
   providers: [
-    PgVectorStore,
+    {
+      provide: 'VectorStore',
+      useClass: PgVectorStore,
+    },
     KnexVectorTableRepository,
     DatabaseAdapter,
     VectorStoreFacade,
