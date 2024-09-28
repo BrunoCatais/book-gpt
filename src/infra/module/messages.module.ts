@@ -3,7 +3,7 @@ import { MessagesResolver } from '../resolver/messages.resolver';
 import { KnexMessageRepository } from '../repository/knex-message.repository';
 import { CreateMessageUsecase } from 'src/application/usecase/create-message';
 import { DatabaseAdapter } from '../database/database.adapter';
-import { PgVectorStore } from '../vector-store/pg-vector-store';
+import { VectorStoreModule } from './vector-store.module';
 
 @Module({
   providers: [
@@ -14,10 +14,7 @@ import { PgVectorStore } from '../vector-store/pg-vector-store';
     },
     CreateMessageUsecase,
     DatabaseAdapter,
-    {
-      provide: 'VectorStore',
-      useClass: PgVectorStore,
-    },
   ],
+  imports: [VectorStoreModule],
 })
 export class MessagesModule {}

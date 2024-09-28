@@ -6,6 +6,7 @@ import { FilesModule } from './infra/module/files.module';
 import { ConfigModule } from '@nestjs/config';
 import { VectorStoreModule } from './infra/module/vector-store.module';
 import { MessagesModule } from './infra/module/messages.module';
+import { CollectionsModule } from './infra/module/collections.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { MessagesModule } from './infra/module/messages.module';
     FilesModule,
     VectorStoreModule,
     MessagesModule,
+    CollectionsModule,
   ],
   providers: [],
 })

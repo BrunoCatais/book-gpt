@@ -14,6 +14,6 @@ import { VectorStoreFacade } from 'src/application/service/vector-store.facade';
     DatabaseAdapter,
     VectorStoreFacade,
   ],
-  exports: [VectorStoreFacade],
+  exports: [VectorStoreFacade, 'VectorStore'],
 })
 export class VectorStoreModule {}

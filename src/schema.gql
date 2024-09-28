@@ -2,6 +2,28 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Collection {
+  """The color of the collection"""
+  color: String!
+
+  """The creation date of the collection"""
+  created_at: DateTime!
+
+  """The id of the collection"""
+  id: ID!
+
+  """The name of the collection"""
+  name: String!
+}
+
+input CreateCollectionInput {
+  """The color of the collection"""
+  color: String!
+
+  """The name of the collection"""
+  name: String!
+}
+
 input CreateFileInput {
   """The content of the file"""
   content: String!
@@ -67,6 +89,7 @@ type Message {
 }
 
 type Mutation {
+  createCollection(createCollectionInput: CreateCollectionInput!): Collection!
   createFile(createFileInput: CreateFileInput!): File!
   createMessage(createMessageInput: CreateMessageInput!): Message!
   removeFile(id: ID!): File!
