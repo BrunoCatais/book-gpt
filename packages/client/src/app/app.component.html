@@ -1,0 +1,11 @@
+<div class="flex h-screen overflow-hidden">
+  <aside class="w-80 grow-0 bg-gray-50 text-white p-4 overflow-y-auto scrollbar">
+    <div *ngFor="let chat of chats; let i = index" class="p-2 text-gray-800 rounded-lg mb-2">
+      <div class="text-sm font-medium truncate">{{ chat.name }}</div>
+    </div>
+  </aside>
+
+  <main class="flex w-full h-full p-8">
+    <app-chat></app-chat>
+  </main>
+</div>
