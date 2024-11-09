@@ -25,7 +25,11 @@ export class KnexMessageRepository implements MessageRepository {
     throw new Error('Method not implemented.');
   }
 
-  findAll(): Promise<Message[]> {
-    throw new Error('Method not implemented.');
+  async findAllByFileId(fileId: string): Promise<Message[]> {
+    const messages = await this.db('messages')
+      .select('*')
+      .where({ file_id: fileId });
+
+    return messages.map((message) => Message.restore(message));
   }
 }

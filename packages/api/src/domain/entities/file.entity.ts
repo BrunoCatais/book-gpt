@@ -1,5 +1,6 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { v4 as uuidv4 } from 'uuid';
+import { Message } from './message.entity';
 
 @ObjectType()
 export class File {
@@ -17,6 +18,9 @@ export class File {
 
   @Field({ description: 'The creation date of the file' })
   created_at: Date;
+
+  @Field(() => [Message], { description: 'The messages of the file' })
+  messages: Message[];
 
   private constructor(
     id: string,

@@ -8,6 +8,8 @@ import { FindAllFilesUsecase } from 'src/application/usecase/find-all-files';
 import { RemoveFileUsecase } from 'src/application/usecase/remove-file';
 import { VectorStoreModule } from './vector-store.module';
 import { KnexVectorTableRepository } from '../repository/knex-vector-table.repository';
+import { FindAllMessagesByFileIdUsecase } from 'src/application/usecase/find-all-messages-by-file-id';
+import { KnexMessageRepository } from '../repository/knex-message.repository';
 
 @Module({
   providers: [
@@ -24,6 +26,11 @@ import { KnexVectorTableRepository } from '../repository/knex-vector-table.repos
     {
       provide: 'VectorTableRepository',
       useClass: KnexVectorTableRepository,
+    },
+    FindAllMessagesByFileIdUsecase,
+    {
+      provide: 'MessageRepository',
+      useClass: KnexMessageRepository,
     },
   ],
   imports: [VectorStoreModule],
