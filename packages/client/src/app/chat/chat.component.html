@@ -6,19 +6,27 @@
     <div class="text-gray-600 text-lg font-semibold justify-self-center">
       {{ file?.name }}
     </div>
-    <i class="material-icons-outlined text-gray-800 border-2 justify-self-end px-1 w-fit rounded-md border-gray-800 text-xl">person</i>
+    <i
+      class="material-icons-outlined text-gray-800 border-2 justify-self-end px-1 w-fit rounded-md border-gray-800 text-xl hover:bg-gray-200 cursor-pointer">person</i>
   </div>
-  <div class="flex flex-col h-full gap-4 px-56">
+  <div class="flex flex-col h-full gap-4 px-56 overflow-y-auto scrollbar" #messageContainer>
     <div *ngFor="let message of file?.messages; let i = index" [ngClass]="{
       'self-end': message?.source === 'user',
-    }" class="bg-gray-100 p-2 px-4 rounded-lg max-w-[600px] min-w-[500px]">
-        {{ message?.message }}
+    }" class="bg-gray-100 p-2 px-4 rounded-lg max-w-[600px] min-w-[500px] whitespace-pre-line">
+      {{ message?.message }}
+    </div>
+    <div *ngIf="isLoading" class="bg-gray-100 p-2 px-4 w-fit rounded-lg whitespace-pre-line loading-dots">
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
     </div>
   </div>
-  <div class="flex justify-center w-full mb-9">
-    <div class="flex bg-gray-100 rounded-xl items-center px-3 py-1">
-      <input type="text" class="w-[800px] h-9 bg-transparent focus:outline-none">
-      <i class="material-icons-outlined text-white bg-gray-300 justify-self-end w-8 h-8 flex justify-center items-center rounded-full text-lg">send</i>
+  <div class="flex justify-center w-full mb-9 mt-4">
+    <div class="flex bg-gray-200 rounded-xl items-center px-3 py-1">
+      <input type="text" class="w-[800px] h-9 bg-transparent focus:outline-none" [formControl]="message"
+        (keyup.enter)="createMessage()">
+      <i (click)="createMessage()"
+        class="material-icons-outlined text-white bg-gray-400 justify-self-end w-8 h-8 flex justify-center items-center rounded-full text-lg cursor-pointer">send</i>
     </div>
   </div>
 </div>

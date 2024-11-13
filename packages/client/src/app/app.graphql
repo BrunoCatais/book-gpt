@@ -21,3 +21,12 @@ query getFile ($id: ID!) {
     }
   }
 }
+
+mutation createMessage ($input: CreateMessageInput!) {
+  createMessage (createMessageInput: $input) {
+    id
+    message
+    source
+    created_at
+  }
+}

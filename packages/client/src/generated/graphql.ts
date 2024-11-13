@@ -139,6 +139,13 @@ export type GetFileQueryVariables = Exact<{
 
 export type GetFileQuery = { __typename?: 'Query', file: { __typename?: 'File', id: string, name: string, size: number, created_at: any, messages: Array<{ __typename?: 'Message', id: string, message: string, source: string, created_at: any }> } };
 
+export type CreateMessageMutationVariables = Exact<{
+  input: CreateMessageInput;
+}>;
+
+
+export type CreateMessageMutation = { __typename?: 'Mutation', createMessage: { __typename?: 'Message', id: string, message: string, source: string, created_at: any } };
+
 export const GetFilesDocument = gql`
     query getFiles {
   files {
@@ -182,6 +189,27 @@ export const GetFileDocument = gql`
   })
   export class GetFileGQL extends Apollo.Query<GetFileQuery, GetFileQueryVariables> {
     document = GetFileDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const CreateMessageDocument = gql`
+    mutation createMessage($input: CreateMessageInput!) {
+  createMessage(createMessageInput: $input) {
+    id
+    message
+    source
+    created_at
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CreateMessageGQL extends Apollo.Mutation<CreateMessageMutation, CreateMessageMutationVariables> {
+    document = CreateMessageDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

@@ -2,7 +2,10 @@
   <aside class="w-80 grow-0 bg-gray-50 text-white overflow-y-auto scrollbar px-2">
     <div class="flex justify-between items-center mb-2 border-b p-4">
       <div class="text-base text-gray-800 font-medium truncate">Book GPT</div>
-      <i class="material-icons-outlined text-gray-800 border-2 px-1 rounded-md border-gray-800 text-xl">edit</i>
+      <i onclick="document.getElementById('fileInput').click()"
+      class="material-icons-outlined text-gray-800 border-2 px-1 rounded-md border-gray-800 text-xl hover:bg-gray-200 cursor-pointer">
+        edit
+      </i>
     </div>
 
     <div *ngFor="let chat of chats; let i = index"
@@ -17,6 +20,9 @@
   </aside>
 
   <main class="w-full">
+    <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
     <app-chat [id]="selectedChatId!"></app-chat>
   </main>
 </div>
+
+<input type="file" id="fileInput" accept=".epub" (change)="onFileSelected($event)" hidden/>

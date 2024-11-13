@@ -25,14 +25,7 @@ input CreateCollectionInput {
 }
 
 input CreateFileInput {
-  """The content of the file"""
-  content: String!
-
-  """The name of the file"""
-  name: String!
-
-  """The size of the file"""
-  size: Int!
+  file: Upload!
 }
 
 input CreateMessageInput {
@@ -102,3 +95,6 @@ type Query {
   file(id: ID!): File!
   files: [File!]!
 }
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload

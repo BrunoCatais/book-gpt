@@ -47,6 +47,8 @@ export class PgVectorStore implements VectorStore {
         Do not quote the excerpt directly, but rather answer the question in your own words.
         If you do not know the answer, just say that you do not know.
         Use the excerpts below to answer the questions.
+        Do not say 'based on the excerpt' or 'according to the excerpt' in your answer.
+        Answer in the language of the excerpts.
 
         Excerpts:
         {context}

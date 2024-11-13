@@ -1,13 +1,8 @@
-import { InputType, Int, Field } from '@nestjs/graphql';
+import { InputType, Field } from '@nestjs/graphql';
+import { GraphQLUpload, FileUpload } from 'graphql-upload';
 
 @InputType()
 export class CreateFileInput {
-  @Field(() => String, { description: 'The name of the file' })
-  name: string;
-
-  @Field(() => Int, { description: 'The size of the file' })
-  size: number;
-
-  @Field(() => String, { description: 'The content of the file' })
-  content: string;
+  @Field(() => GraphQLUpload)
+  file: Promise<FileUpload>;
 }
