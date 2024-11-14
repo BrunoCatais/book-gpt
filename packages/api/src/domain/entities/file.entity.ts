@@ -19,6 +19,12 @@ export class File {
   @Field({ description: 'The creation date of the file' })
   created_at: Date;
 
+  @Field(() => ID, {
+    description: 'The collection id of the file',
+    nullable: true,
+  })
+  collection_id?: string;
+
   @Field(() => [Message], { description: 'The messages of the file' })
   messages: Message[];
 
@@ -28,16 +34,23 @@ export class File {
     size: number,
     content: string,
     created_at: Date,
+    collection_id: string,
   ) {
     this.id = id;
     this.name = name;
     this.size = size;
     this.content = content;
     this.created_at = created_at;
+    this.collection_id = collection_id;
   }
 
-  static create(name: string, size: number, content: string) {
-    return new File(uuidv4(), name, size, content, new Date());
+  static create(
+    name: string,
+    size: number,
+    content: string,
+    collection_id?: string,
+  ) {
+    return new File(uuidv4(), name, size, content, new Date(), collection_id);
   }
 
   static restore(file: File) {
@@ -47,6 +60,7 @@ export class File {
       file.size,
       file.content,
       file.created_at,
+      file.collection_id,
     );
   }
 }

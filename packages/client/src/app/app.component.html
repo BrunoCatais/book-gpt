@@ -2,19 +2,53 @@
   <aside class="w-80 grow-0 bg-gray-50 text-white overflow-y-auto scrollbar px-2">
     <div class="flex justify-between items-center mb-2 border-b p-4">
       <div class="text-base text-gray-800 font-medium truncate">Book GPT</div>
-      <i onclick="document.getElementById('fileInput').click()"
-      class="material-icons-outlined text-gray-800 border-2 px-1 rounded-md border-gray-800 text-xl hover:bg-gray-200 cursor-pointer">
-        edit
-      </i>
+      <div class="flex gap-2">
+        <app-icon-button icon="create_new_folder" (buttonClick)="openNewCollectionDialog()"></app-icon-button>
+        <app-icon-button onclick="document.getElementById('fileInput').click()" icon="edit"></app-icon-button>
+      </div>
+    </div>
+
+    <div *ngFor="let collection of collections; let i = index">
+      <div (click)="onSelectCollection(collection.id)"
+        [style]="selectedCollectionId === collection.id ? 'background-color: '+ (collection.color! | backgroundColor) + ' border-color: ' + (collection!.color! | textColor) : ''"
+        [ngClass]="{
+          'border': selectedCollectionId === collection.id && !selectedChatId,
+        }"
+        class="flex justify-between items-center rounded-lg cursor-pointer rounded-b-none p-2 px-4 mt-2">
+
+        <div
+          [style]="'color: ' + (collection.color! | textColor)"
+          class="text-sm font-medium truncate">
+          {{ collection.name }}
+        </div>
+        <i (click)="onOpenCollection($event, collection.id)"
+          [style]="'color: ' + (collection.color! | textColor) + 'border-color: ' + (collection.color! | textColor)"
+          class="material-icons-outlined border rounded">
+          {{ selectedCollectionId === collection.id ? 'arrow_drop_up' : 'arrow_drop_down' }}
+        </i>
+      </div>
+
+      <div *ngIf="selectedCollectionId === collection.id">
+        <div *ngFor="let chat of collectionFiles; let i = index; let isLast = last"
+          (click)="onSelectChat(chat.id)"
+          [style]="'background-color: ' + (collection!.color! | backgroundColor) + ' border-color: ' + (collection!.color! | textColor)"
+          [ngClass]="{
+            'rounded-lg rounded-t-none': isLast,
+            'border': selectedChatId === chat.id,
+          }"
+          class="py-3 px-4 text-gray-800 cursor-pointer">
+          <div class="text-sm font-medium truncate">{{ chat.name }}</div>
+        </div>
+      </div>
     </div>
 
     <div *ngFor="let chat of chats; let i = index"
-      (click)="onSelect(chat.id)"
+      (click)="onSelectChat(chat.id)"
       [ngClass]="{
         'bg-slate-100': selectedChatId === chat.id,
         'hover:bg-slate-100': selectedChatId !== chat.id
       }"
-      class="p-2 px-4 text-gray-800 rounded-lg mb-2 cursor-pointer">
+      class="p-2 px-4 text-gray-800 rounded-lg mt-2 cursor-pointer">
       <div class="text-sm font-medium truncate">{{ chat.name }}</div>
     </div>
   </aside>

@@ -2,13 +2,13 @@ import { Inject, Injectable } from '@nestjs/common';
 import FileRepository from '../repository/file.repository';
 
 @Injectable()
-export class FindAllFilesUsecase {
+export class FindAllFilesByCollectionIdUsecase {
   constructor(
     @Inject('FileRepository')
     private readonly fileRepository: FileRepository,
   ) {}
 
-  async execute() {
-    return this.fileRepository.findAllWithoutCollection();
+  async execute(collectionId: string) {
+    return this.fileRepository.findAllByCollectionId(collectionId);
   }
 }

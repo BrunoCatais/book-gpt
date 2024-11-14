@@ -1,0 +1,28 @@
+<div class="flex flex-col justify-center w-[400px]">
+  <div class="flex w-full items-center justify-between border-b px-3 py-2">
+    <div class="font-medium">Criar nova coleção</div>
+    <app-icon-button (buttonClick)="close()" icon="close" class="[&_button]:rounded-full [&_button]:border-0 [&_.material-icons-outlined]:text-base"></app-icon-button>
+  </div>
+  <div class="flex flex-col gap-1 py-3 px-4">
+    <label class="text-sm">Nome</label>
+    <input type="text" class="border rounded-lg p-2" [formControl]="form.controls.name" />
+    <label class="text-sm mt-2">Cor</label>
+    <div class="flex items-center gap-2" [cdkMenuTriggerFor]="menuTemplate">
+      <div class="w-4 h-4 rounded-full" [style]="'background-color:' + form.controls.color.value"></div>
+      <button [style]="'color:' + form.controls.color.value">{{ form.controls.color.value! | translateColor }}</button>
+    </div>
+  </div>
+  <div class="flex w-full items-center justify-end border-t px-3 py-2 gap-4">
+    <button class="text-gray-800" (click)="close()">Cancelar</button>
+    <button class="bg-gray-800 text-white rounded-lg px-4 py-2" (click)="createCollection()">Criar</button>
+  </div>
+</div>
+
+<ng-template #menuTemplate>
+  <div class="bg-white grid grid-cols-5 grid-rows-2 rounded-md shadow-md gap-2 p-2">
+    <div *ngFor="let color of colors">
+      <div class="w-6 h-6 rounded-full cursor-pointer hover:border" [style.background]="color"
+        (click)="setColor(color)"></div>
+    </div>
+  </div>
+</ng-template>

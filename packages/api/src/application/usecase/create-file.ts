@@ -26,7 +26,7 @@ export class CreateFileUsecase {
 
     const file = File.create(
       uploadedFile.filename,
-      123,
+      createFileInput.size,
       this.cleanHTML(content.join(' ')),
     );
 
@@ -34,42 +34,39 @@ export class CreateFileUsecase {
     return this.fileRepository.create(file);
   }
 
-  readEpubFromStream(readStream: ReadStream) {
+  async readEpubFromStream(readStream: ReadStream) {
     const tempFilePath = path.join(__dirname, 'temp.epub');
     const writeStream = fs.createWriteStream(tempFilePath);
-    return new Promise((resolve, reject) => {
+
+    await new Promise((resolve, reject) => {
       readStream.pipe(writeStream);
-      readStream.on('end', () => {
-        const epub = new EPub(tempFilePath);
-        epub.on('end', async () => {
-          try {
-            const chaptersContent = await Promise.all(
-              epub.flow.map((chapter) => {
-                return new Promise((resolveChapter, rejectChapter) => {
-                  epub.getChapter(chapter.id, (error, text) => {
-                    if (error) {
-                      rejectChapter(error);
-                    } else {
-                      resolveChapter(text);
-                    }
-                  });
-                });
-              }),
-            );
-            resolve(chaptersContent);
-          } catch (error) {
-            reject(error);
-          }
-        });
-        epub.parse();
-      });
-      readStream.on('error', (error) => {
-        reject(error);
-      });
-      writeStream.on('error', (error) => {
-        reject(error);
-      });
+      readStream.on('end', resolve);
+      readStream.on('error', reject);
+      writeStream.on('error', reject);
     });
+
+    const epub = new EPub(tempFilePath);
+    await new Promise((resolve, reject) => {
+      epub.on('end', resolve);
+      epub.on('error', reject);
+      epub.parse();
+    });
+
+    const chaptersContent = await Promise.all(
+      epub.flow.map((chapter) => {
+        return new Promise((resolveChapter, rejectChapter) => {
+          epub.getChapter(chapter.id, (error, text) => {
+            if (error) {
+              rejectChapter(error);
+            } else {
+              resolveChapter(text);
+            }
+          });
+        });
+      }),
+    );
+
+    return chaptersContent;
   }
 
   cleanHTML(html: string) {

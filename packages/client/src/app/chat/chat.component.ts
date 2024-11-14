@@ -4,12 +4,13 @@ import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DeepPartial } from '@apollo/client/utilities';
 import { firstValueFrom } from 'rxjs';
 import { CreateMessageGQL, File, GetFileGQL } from 'src/generated/graphql';
+import { IconButtonComponent } from '../components/icon-button/icon-button.component';
 
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss'],
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, IconButtonComponent],
   standalone: true,
 })
 export class ChatComponent implements OnChanges, AfterViewChecked {

@@ -5,4 +5,7 @@ import { GraphQLUpload, FileUpload } from 'graphql-upload';
 export class CreateFileInput {
   @Field(() => GraphQLUpload)
   file: Promise<FileUpload>;
+
+  @Field()
+  size: number;
 }

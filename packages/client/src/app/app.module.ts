@@ -8,6 +8,9 @@ import { GraphQLModule } from './graphql.module';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
+import { IconButtonComponent } from './components/icon-button/icon-button.component';
+import { BackgroundColorPipe } from 'src/common/background-color.pipe';
+import { TextColorPipe } from 'src/common/text-color.pipe';
 
 @NgModule({
   declarations: [
@@ -22,6 +25,9 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatDialogModule,
     BrowserAnimationsModule,
     MatProgressBarModule,
+    IconButtonComponent,
+    BackgroundColorPipe,
+    TextColorPipe
   ],
   providers: [],
   bootstrap: [AppComponent]

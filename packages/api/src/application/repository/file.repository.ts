@@ -4,5 +4,6 @@ export default interface FileRepository {
   create(file: File): Promise<File>;
   remove(id: string): Promise<File | undefined>;
   findById(id: string): Promise<File | undefined>;
-  findAll(): Promise<File[]>;
+  findAllWithoutCollection(): Promise<File[]>;
+  findAllByCollectionId(collectionId: string): Promise<File[]>;
 }

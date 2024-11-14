@@ -19,4 +19,10 @@ export class KnexCollectionRepository implements CollectionRepository {
 
     return Collection.restore(createdCollection);
   }
+
+  async findAll(): Promise<Collection[]> {
+    const collections = await this.db('collections').select('*');
+
+    return collections.map((collection) => Collection.restore(collection));
+  }
 }

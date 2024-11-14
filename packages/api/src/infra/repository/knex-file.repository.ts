@@ -18,8 +18,8 @@ export class KnexFileRepository implements FileRepository {
     return File.restore(createdFile);
   }
 
-  async findAll() {
-    const files = await this.db('files').select('*');
+  async findAllWithoutCollection() {
+    const files = await this.db('files').select('*').whereNull('collection_id');
 
     return files.map(File.restore);
   }
@@ -43,5 +43,13 @@ export class KnexFileRepository implements FileRepository {
 
     await this.db('files').where({ id }).delete();
     return file;
+  }
+
+  async findAllByCollectionId(collectionId: string): Promise<File[]> {
+    const files = await this.db('files')
+      .select('*')
+      .where({ collection_id: collectionId });
+
+    return files.map(File.restore);
   }
 }
