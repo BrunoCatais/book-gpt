@@ -15,6 +15,9 @@ type Collection {
   """The id of the collection"""
   id: ID!
 
+  """The messages of the collection"""
+  messages: [Message!]!
+
   """The name of the collection"""
   name: String!
 }
@@ -100,6 +103,7 @@ type Mutation {
 }
 
 type Query {
+  collection(id: ID!): Collection!
   collections: [Collection!]!
   file(id: ID!): File!
   files: [File!]!

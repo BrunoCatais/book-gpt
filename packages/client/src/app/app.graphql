@@ -39,6 +39,21 @@ query getFile ($id: ID!) {
   }
 }
 
+query getCollection ($id: ID!) {
+  collection (id: $id) {
+    id
+    name
+    color
+    created_at
+    messages {
+      id
+      message
+      source
+      created_at
+    }
+  }
+}
+
 mutation createMessage ($input: CreateMessageInput!) {
   createMessage (createMessageInput: $input) {
     id

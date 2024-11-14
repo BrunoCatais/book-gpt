@@ -1,6 +1,7 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { v4 as uuidv4 } from 'uuid';
 import { File } from './file.entity';
+import { Message } from './message.entity';
 
 @ObjectType()
 export class Collection {
@@ -18,6 +19,9 @@ export class Collection {
 
   @Field(() => [File!], { description: 'The files of the collection' })
   files: File[];
+
+  @Field(() => [Message], { description: 'The messages of the collection' })
+  messages: Message[];
 
   private constructor(
     id: string,

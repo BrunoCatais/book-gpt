@@ -4,7 +4,7 @@ import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DeepPartial } from '@apollo/client/utilities';
 import { firstValueFrom } from 'rxjs';
 import { IconButtonComponent } from 'src/common/components/icon-button/icon-button.component';
-import { CreateMessageGQL, File, GetFileGQL } from 'src/generated/graphql';
+import { Collection, CreateMessageGQL, File, GetCollectionGQL, GetFileGQL } from 'src/generated/graphql';
 
 @Component({
   selector: 'app-chat',
@@ -14,8 +14,10 @@ import { CreateMessageGQL, File, GetFileGQL } from 'src/generated/graphql';
   standalone: true,
 })
 export class ChatComponent implements OnChanges, AfterViewChecked {
-  @Input({ required: true }) id!: string;
+  @Input() fileId!: string;
+  @Input() collectionId!: string;
   file: DeepPartial<File> | null = null;
+  collection: DeepPartial<Collection> | null = null;
 
   message = new FormControl<string | null>('', { validators: [ Validators.minLength(3), Validators.required ] });
   isLoading = false;
@@ -24,12 +26,13 @@ export class ChatComponent implements OnChanges, AfterViewChecked {
 
   constructor(
     private readonly getFileGQL: GetFileGQL,
+    private readonly getCollectionGQL: GetCollectionGQL,
     private readonly createMessageGQL: CreateMessageGQL,
   ) {}
 
   async ngOnChanges(): Promise<void> {
-    if (!this.id) return;
-    await this.fetchFile();
+    if (!this.fileId && !this.collectionId) return;
+    await this.fetchMessages();
   }
 
   ngAfterViewChecked() {
@@ -41,18 +44,30 @@ export class ChatComponent implements OnChanges, AfterViewChecked {
     const newMessage = { message: this.message.value!, source: 'user', created_at: new Date().toISOString() };
     this.file = {
         ...this.file,
-        messages: [...(this.file?.messages || []), newMessage]
+        messages: [...(this.file?.messages || this.collection?.messages || []), newMessage]
     };
     this.message.reset();
     this.isLoading = true;
-    await firstValueFrom(this.createMessageGQL.mutate({ input: { message: newMessage.message!, fileId: this.file?.id } }));
-    await this.fetchFile();
+    const input = this.fileId ? { message: newMessage.message!, fileId: this.fileId } : { message: newMessage.message!, collectionId: this.collectionId };
+    await firstValueFrom(this.createMessageGQL.mutate({ input }));
+    await this.fetchMessages();
     this.isLoading = false;
   }
 
-  async fetchFile(): Promise<void> {
-    const response = await firstValueFrom(this.getFileGQL.fetch({ id: this.id }, { fetchPolicy: 'no-cache' }));
-    this.file = response.data.file;
+  async fetchMessages(): Promise<void> {
+    if (this.fileId) {
+      this.collection = null;
+      const response = await firstValueFrom(this.getFileGQL.fetch({ id: this.fileId }, { fetchPolicy: 'no-cache' }));
+      this.file = response.data.file;
+      return;
+    }
+    this.file = null;
+    const response = await firstValueFrom(this.getCollectionGQL.fetch({ id: this.collectionId }, { fetchPolicy: 'no-cache' }));
+    this.collection = response.data.collection;
+  }
+
+  get messages(): DeepPartial<File>['messages'] | DeepPartial<Collection>['messages'] {
+    return this.file?.messages || this.collection?.messages || [];
   }
 
   private scrollToBottom(): void {

@@ -12,6 +12,7 @@ import { IconButtonComponent } from 'src/common/components/icon-button/icon-butt
 import { BackgroundColorPipe } from 'src/common/pipes/background-color.pipe';
 import { TextColorPipe } from 'src/common/pipes/text-color.pipe';
 import { CdkMenuModule } from '@angular/cdk/menu';
+import { AppService } from './app.service';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,7 @@ import { CdkMenuModule } from '@angular/cdk/menu';
     TextColorPipe,
     CdkMenuModule,
   ],
-  providers: [],
+  providers: [AppService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

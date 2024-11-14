@@ -25,8 +25,8 @@ export class PgVectorStore implements VectorStore {
   constructor(private readonly configService: ConfigService) {
     this.splitter = new TokenTextSplitter({
       encodingName: 'cl100k_base',
-      chunkSize: 600,
-      chunkOverlap: 0,
+      chunkSize: 1000,
+      chunkOverlap: 200,
     });
 
     this.initialize();

@@ -28,7 +28,17 @@ export class KnexMessageRepository implements MessageRepository {
   async findAllByFileId(fileId: string): Promise<Message[]> {
     const messages = await this.db('messages')
       .select('*')
+      .orderBy('created_at', 'asc')
       .where({ file_id: fileId });
+
+    return messages.map((message) => Message.restore(message));
+  }
+
+  async findAllByCollectionId(collectionId: string): Promise<Message[]> {
+    const messages = await this.db('messages')
+      .select('*')
+      .orderBy('created_at', 'asc')
+      .where({ collection_id: collectionId });
 
     return messages.map((message) => Message.restore(message));
   }

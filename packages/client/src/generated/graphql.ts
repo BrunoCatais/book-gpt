@@ -31,6 +31,8 @@ export type Collection = {
   files: Array<File>;
   /** The id of the collection */
   id: Scalars['ID']['output'];
+  /** The messages of the collection */
+  messages: Array<Message>;
   /** The name of the collection */
   name: Scalars['String']['output'];
 };
@@ -127,9 +129,15 @@ export type MutationRemoveFileArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  collection: Collection;
   collections: Array<Collection>;
   file: File;
   files: Array<File>;
+};
+
+
+export type QueryCollectionArgs = {
+  id: Scalars['ID']['input'];
 };
 
 
@@ -153,6 +161,13 @@ export type GetFileQueryVariables = Exact<{
 
 
 export type GetFileQuery = { __typename?: 'Query', file: { __typename?: 'File', id: string, name: string, size: number, created_at: any, collection_id?: string | null, messages: Array<{ __typename?: 'Message', id: string, message: string, source: string, created_at: any }> } };
+
+export type GetCollectionQueryVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type GetCollectionQuery = { __typename?: 'Query', collection: { __typename?: 'Collection', id: string, name: string, color: string, created_at: any, messages: Array<{ __typename?: 'Message', id: string, message: string, source: string, created_at: any }> } };
 
 export type CreateMessageMutationVariables = Exact<{
   input: CreateMessageInput;
@@ -247,6 +262,33 @@ export const GetFileDocument = gql`
   })
   export class GetFileGQL extends Apollo.Query<GetFileQuery, GetFileQueryVariables> {
     document = GetFileDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GetCollectionDocument = gql`
+    query getCollection($id: ID!) {
+  collection(id: $id) {
+    id
+    name
+    color
+    created_at
+    messages {
+      id
+      message
+      source
+      created_at
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetCollectionGQL extends Apollo.Query<GetCollectionQuery, GetCollectionQueryVariables> {
+    document = GetCollectionDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
