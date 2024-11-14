@@ -25,4 +25,14 @@ export class KnexCollectionRepository implements CollectionRepository {
 
     return collections.map((collection) => Collection.restore(collection));
   }
+
+  async findById(id: string): Promise<Collection | undefined> {
+    const collection = await this.db('collections').where({ id }).first();
+
+    if (!collection) {
+      return undefined;
+    }
+
+    return Collection.restore(collection);
+  }
 }

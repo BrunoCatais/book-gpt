@@ -95,6 +95,7 @@ type Mutation {
   createCollection(createCollectionInput: CreateCollectionInput!): Collection!
   createFile(createFileInput: CreateFileInput!): File!
   createMessage(createMessageInput: CreateMessageInput!): Message!
+  moveFile(collectionId: ID, fileId: ID!): File!
   removeFile(id: ID!): File!
 }
 

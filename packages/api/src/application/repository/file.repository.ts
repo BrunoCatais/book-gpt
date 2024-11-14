@@ -6,4 +6,5 @@ export default interface FileRepository {
   findById(id: string): Promise<File | undefined>;
   findAllWithoutCollection(): Promise<File[]>;
   findAllByCollectionId(collectionId: string): Promise<File[]>;
+  moveFile(fileId: string, collectionId: string | null): Promise<File>;
 }

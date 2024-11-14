@@ -36,8 +36,12 @@
             'rounded-lg rounded-t-none': isLast,
             'border': selectedChatId === chat.id,
           }"
-          class="py-3 px-4 text-gray-800 cursor-pointer">
+          class="flex items-center justify-between py-3 px-4 text-gray-800 cursor-pointer">
           <div class="text-sm font-medium truncate">{{ chat.name }}</div>
+          <i [cdkMenuTriggerFor]="menuOptions"
+            class="material-icons-outlined rounded text-gray-800 text-base">
+            more_vert
+          </i>
         </div>
       </div>
     </div>
@@ -48,8 +52,12 @@
         'bg-slate-100': selectedChatId === chat.id,
         'hover:bg-slate-100': selectedChatId !== chat.id
       }"
-      class="p-2 px-4 text-gray-800 rounded-lg mt-2 cursor-pointer">
+      class="flex items-center justify-between p-2 px-4 text-gray-800 rounded-lg mt-2 cursor-pointer">
       <div class="text-sm font-medium truncate">{{ chat.name }}</div>
+      <i [cdkMenuTriggerFor]="menuOptions"
+        class="material-icons-outlined rounded text-gray-800 text-base">
+        more_vert
+      </i>
     </div>
   </aside>
 
@@ -60,3 +68,33 @@
 </div>
 
 <input type="file" id="fileInput" accept=".epub" (change)="onFileSelected($event)" hidden/>
+
+<ng-template #menuOptions>
+  <div class="flex flex-col bg-white rounded-md shadow-md gap-2 p-2" cdkMenu>
+    <div [cdkMenuTriggerFor]="menuCollections" class="flex items-center justify-between gap-1">
+      <div class="text-sm text-gray-800">Mover para</div>
+      <i class="material-icons-outlined rounded text-gray-800 text-base">
+        chevron_right
+      </i>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #menuCollections>
+  <div class="flex flex-col bg-white rounded-md shadow-md gap-1 p-1 px-2">
+      <div *ngFor="let collection of collections" class="flex items-center" (click)="moveFileToCollection(collection.id!)">
+        <div class="w-3 h-3 rounded-full" [style]="'background-color: ' + (collection!.color! | textColor)"></div>
+        <div class="cursor-pointer p-2" [style]="'color: ' + (collection!.color! | textColor)">
+          {{ collection.name }}
+        </div>
+      </div>
+      <div class="flex items-center" (click)="moveFileToCollection(null)">
+        <i class="material-icons-outlined rounded text-gray-800 text-base">
+          close
+        </i>
+        <div class="cursor-pointer p-2">
+          Sem coleção
+        </div>
+      </div>
+  </div>
+</ng-template>

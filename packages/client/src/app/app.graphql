@@ -56,3 +56,13 @@ mutation createCollection($input: CreateCollectionInput!) {
     created_at
   }
 }
+
+mutation moveFile($fileId: ID!, $collectionId: ID) {
+  moveFile(fileId: $fileId, collectionId: $collectionId) {
+    id
+    name
+    size
+    created_at
+    collection_id
+  }
+}

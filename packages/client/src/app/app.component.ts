@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
-import { Collection as CollectionGQL, File as FileGQL, GetCollectionsGQL, GetFilesGQL } from 'src/generated/graphql';
+import { Collection as CollectionGQL, File as FileGQL, GetCollectionsGQL, GetFilesGQL, MoveFileGQL } from 'src/generated/graphql';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { NewCollectionComponent } from './new-collection/new-collection.component';
@@ -24,7 +24,8 @@ export class AppComponent implements OnInit {
     private readonly getCollectionsGQL: GetCollectionsGQL,
     private readonly getFilesGQL: GetFilesGQL,
     private readonly http: HttpClient,
-    private readonly matDialog: MatDialog
+    private readonly matDialog: MatDialog,
+    private readonly moveFileGQL: MoveFileGQL
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -33,6 +34,19 @@ export class AppComponent implements OnInit {
 
   openNewCollectionDialog() {
     this.matDialog.open(NewCollectionComponent);
+  }
+
+  async moveFileToCollection(collectionId: string | null) {
+    if (!this.selectedChatId) return;
+    await firstValueFrom(
+      this.moveFileGQL.mutate({
+        fileId: this.selectedChatId,
+        collectionId
+      })
+    )
+    this.fetchFilesAndCollections();
+    this.selectedChatId = null;
+    this.selectedCollectionId = null;
   }
 
   onOpenCollection(event: Event, id?: string): void {

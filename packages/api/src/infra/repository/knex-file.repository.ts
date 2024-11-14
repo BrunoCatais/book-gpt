@@ -52,4 +52,13 @@ export class KnexFileRepository implements FileRepository {
 
     return files.map(File.restore);
   }
+
+  async moveFile(fileId: string, collectionId: string | null): Promise<File> {
+    const [updatedFile] = await this.db('files')
+      .where({ id: fileId })
+      .update({ collection_id: collectionId })
+      .returning('*');
+
+    return File.restore(updatedFile);
+  }
 }

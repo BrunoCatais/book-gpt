@@ -14,6 +14,7 @@ import { FindFileByIdUsecase } from 'src/application/usecase/find-file-by-id';
 import { FindAllFilesUsecase } from 'src/application/usecase/find-all-files';
 import { RemoveFileUsecase } from 'src/application/usecase/remove-file';
 import { FindAllMessagesByFileIdUsecase } from 'src/application/usecase/find-all-messages-by-file-id';
+import { MoveFileUsecase } from 'src/application/usecase/move-file';
 
 @Resolver(() => File)
 export class FilesResolver {
@@ -23,6 +24,7 @@ export class FilesResolver {
     private readonly findAllFilesUsecase: FindAllFilesUsecase,
     private readonly removeFileUsecase: RemoveFileUsecase,
     private readonly findAllMessagesByFileIdUsecase: FindAllMessagesByFileIdUsecase,
+    private readonly moveFileUsecase: MoveFileUsecase,
   ) {}
 
   @Mutation(() => File)
@@ -33,6 +35,16 @@ export class FilesResolver {
   @Mutation(() => File)
   removeFile(@Args('id', { type: () => ID }) id: string) {
     return this.removeFileUsecase.execute(id);
+  }
+
+  @Mutation(() => File)
+  moveFile(
+    @Args('fileId', { type: () => ID })
+    fileId: string,
+    @Args('collectionId', { type: () => ID, nullable: true })
+    collectionId: string | null,
+  ) {
+    return this.moveFileUsecase.execute(fileId, collectionId);
   }
 
   @Query(() => [File], { name: 'files' })

@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { IconButtonComponent } from '../components/icon-button/icon-button.component';
 import {
   FormControl,
   FormGroup,
@@ -9,10 +8,11 @@ import {
 import { CdkMenuModule } from '@angular/cdk/menu';
 import CssColors from 'src/common/css-colors.enum';
 import { CommonModule } from '@angular/common';
-import { TranslateColorPipe } from 'src/common/translate-colors.pipe';
 import { CreateCollectionGQL } from 'src/generated/graphql';
 import { firstValueFrom } from 'rxjs';
 import { MatDialogRef } from '@angular/material/dialog';
+import { IconButtonComponent } from 'src/common/components/icon-button/icon-button.component';
+import { TranslateColorPipe } from 'src/common/pipes/translate-colors.pipe';
 
 @Component({
   standalone: true,

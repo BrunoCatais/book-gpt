@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import CssColors from './css-colors.enum';
+import CssColors from '../css-colors.enum';
 
 @Pipe({
   standalone: true,

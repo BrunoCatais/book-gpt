@@ -8,9 +8,10 @@ import { GraphQLModule } from './graphql.module';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
-import { IconButtonComponent } from './components/icon-button/icon-button.component';
-import { BackgroundColorPipe } from 'src/common/background-color.pipe';
-import { TextColorPipe } from 'src/common/text-color.pipe';
+import { IconButtonComponent } from 'src/common/components/icon-button/icon-button.component';
+import { BackgroundColorPipe } from 'src/common/pipes/background-color.pipe';
+import { TextColorPipe } from 'src/common/pipes/text-color.pipe';
+import { CdkMenuModule } from '@angular/cdk/menu';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { TextColorPipe } from 'src/common/text-color.pipe';
     MatProgressBarModule,
     IconButtonComponent,
     BackgroundColorPipe,
-    TextColorPipe
+    TextColorPipe,
+    CdkMenuModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -10,6 +10,8 @@ import { VectorStoreModule } from './vector-store.module';
 import { KnexVectorTableRepository } from '../repository/knex-vector-table.repository';
 import { FindAllMessagesByFileIdUsecase } from 'src/application/usecase/find-all-messages-by-file-id';
 import { KnexMessageRepository } from '../repository/knex-message.repository';
+import { MoveFileUsecase } from 'src/application/usecase/move-file';
+import { KnexCollectionRepository } from '../repository/knex-collection.repository';
 
 @Module({
   providers: [
@@ -31,6 +33,11 @@ import { KnexMessageRepository } from '../repository/knex-message.repository';
     {
       provide: 'MessageRepository',
       useClass: KnexMessageRepository,
+    },
+    MoveFileUsecase,
+    {
+      provide: 'CollectionRepository',
+      useClass: KnexCollectionRepository,
     },
   ],
   imports: [VectorStoreModule],

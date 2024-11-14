@@ -95,6 +95,7 @@ export type Mutation = {
   createCollection: Collection;
   createFile: File;
   createMessage: Message;
+  moveFile: File;
   removeFile: File;
 };
 
@@ -111,6 +112,12 @@ export type MutationCreateFileArgs = {
 
 export type MutationCreateMessageArgs = {
   createMessageInput: CreateMessageInput;
+};
+
+
+export type MutationMoveFileArgs = {
+  collectionId?: InputMaybe<Scalars['ID']['input']>;
+  fileId: Scalars['ID']['input'];
 };
 
 
@@ -160,6 +167,14 @@ export type CreateCollectionMutationVariables = Exact<{
 
 
 export type CreateCollectionMutation = { __typename?: 'Mutation', createCollection: { __typename?: 'Collection', id: string, name: string, color: string, created_at: any } };
+
+export type MoveFileMutationVariables = Exact<{
+  fileId: Scalars['ID']['input'];
+  collectionId?: InputMaybe<Scalars['ID']['input']>;
+}>;
+
+
+export type MoveFileMutation = { __typename?: 'Mutation', moveFile: { __typename?: 'File', id: string, name: string, size: number, created_at: any, collection_id?: string | null } };
 
 export const GetFilesDocument = gql`
     query getFiles {
@@ -274,6 +289,28 @@ export const CreateCollectionDocument = gql`
   })
   export class CreateCollectionGQL extends Apollo.Mutation<CreateCollectionMutation, CreateCollectionMutationVariables> {
     document = CreateCollectionDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const MoveFileDocument = gql`
+    mutation moveFile($fileId: ID!, $collectionId: ID) {
+  moveFile(fileId: $fileId, collectionId: $collectionId) {
+    id
+    name
+    size
+    created_at
+    collection_id
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class MoveFileGQL extends Apollo.Mutation<MoveFileMutation, MoveFileMutationVariables> {
+    document = MoveFileDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
